@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pengguna Github</string>
+
+    <string name="name">Nama</string>
+    <string name="username">Nama Pengguna</string>
+    <string name="location">Lokasi</string>
+    <string name="company">Perusahaan</string>
+    <string name="repository">Gudang</string>
+    <string name="followers">Pengikut</string>
+    <string name="following">Mengikuti</string>
+    <string name="_000">000</string>
+    <string name="follow">Ikuti</string>
+    <string name="share">Bagikan</string>
+
+    <string name="login">masuk</string>
+    <string name="url">tautan</string>
+    <string name="search_hint">Masukan Nama Pengguna Github</string>
+    <string name="empty_input">Masukan huruf dengan baik!</string>
+    <string name="search_empty">Cari pengguna Github berdasarkan Nama Pengguna!</string>
+    <string name="not_found">Pengguna tidak ditemukan</string>
+    <string name="change_language_settings">Pengaturan Ganti Bahasa</string>
+    <string name="started_following">Mulai mengikuti %s</string>
+    <string name="follow_on_github">Ikuti %s di Github</string>
+    <string name="error">Kesalahan</string>
+    <string name="nothing">Tidak ada</string>
+</resources>
