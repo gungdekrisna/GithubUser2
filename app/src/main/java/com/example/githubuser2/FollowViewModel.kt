@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.githubuser2.entity.RoomUser
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
@@ -11,16 +12,16 @@ import org.json.JSONArray
 
 class FollowViewModel : ViewModel() {
 
-    val listUsers = MutableLiveData<ArrayList<UserItems>>()
+    val listUsers = MutableLiveData<ArrayList<RoomUser>>()
 
-    fun getUsers() : LiveData<ArrayList<UserItems>> {
+    fun getUsers() : LiveData<ArrayList<RoomUser>> {
         return listUsers
     }
 
     fun setUsers(url: String){
-        val listItems = ArrayList<UserItems>()
+        val listItems = ArrayList<RoomUser>()
         val client = AsyncHttpClient()
-        client.addHeader("Authorization", "token dedf53cdb45f487ca6aba6c1a86a6934be9041a6")
+        client.addHeader("Authorization", "token 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")
         client.addHeader("User-Agent", "request")
         client.get(url, object : AsyncHttpResponseHandler(){
             override fun onSuccess(
@@ -34,7 +35,7 @@ class FollowViewModel : ViewModel() {
 
                     for (i in 0 until responseArray.length()){
                         val user = responseArray.getJSONObject(i)
-                        val userItems = UserItems()
+                        val userItems = RoomUser()
                         userItems.login = user.getString("login")
                         userItems.url = user.getString("url")
                         userItems.avatar_url = user.getString("avatar_url")

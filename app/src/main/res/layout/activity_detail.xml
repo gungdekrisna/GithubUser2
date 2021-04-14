@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/detail_activity"
     android:layout_height="match_parent"
     tools:context=".DetailActivity">
 
@@ -210,13 +211,14 @@
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add"
+        android:id="@+id/fab_add_favorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:background="@color/githubButton"
+        android:visibility="invisible"
         app:fabSize="normal"
         app:srcCompat="@drawable/ic_baseline_favorite_border_24"/>
 

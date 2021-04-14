@@ -2,7 +2,6 @@ package com.example.githubuser2
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -12,6 +11,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuser2.databinding.ActivityMainBinding
+import com.example.githubuser2.entity.RoomUser
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,13 +57,13 @@ class MainActivity : AppCompatActivity() {
         binding.rvUsers.layoutManager = LinearLayoutManager(this)
         binding.rvUsers.adapter = adapter
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: UserItems) {
+            override fun onItemClicked(data: RoomUser) {
                 showSelectedUser(data)
             }
         })
     }
 
-    private fun showSelectedUser(user: UserItems){
+    private fun showSelectedUser(user: RoomUser){
         val moveIntentWithDetail = Intent(this@MainActivity, DetailActivity::class.java)
         moveIntentWithDetail.putExtra(DetailActivity.EXTRA_USER, user)
         startActivity(moveIntentWithDetail)
@@ -83,13 +83,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        /*if (item.itemId == R.id.i_change_settings) {
-            val settings = Intent(Settings.ACTION_LOCALE_SETTINGS)
-            startActivity(settings)
-        }*/
         when(item.itemId){
-            R.id.i_change_settings -> {
-                val settings = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            R.id.action_favorite -> {
+                val favorite = Intent(this@MainActivity, FavoriteActivity::class.java)
+                startActivity(favorite)
+            }
+            R.id.action_settings -> {
+                val settings = Intent(this@MainActivity, SettingsActivity::class.java)
                 startActivity(settings)
             }
         }

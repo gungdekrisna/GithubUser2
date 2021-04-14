@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.githubuser2.entity.RoomUser
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
@@ -11,16 +12,16 @@ import org.json.JSONObject
 
 class DetailViewModel : ViewModel() {
 
-    val userData = MutableLiveData<ArrayList<UserItems>>()
+    val userData = MutableLiveData<ArrayList<RoomUser>>()
 
-    fun getUserDetail() : LiveData<ArrayList<UserItems>> {
+    fun getUserDetail() : LiveData<ArrayList<RoomUser>> {
         return userData
     }
 
     fun setUserDetail(url : String){
-        val dataItems = ArrayList<UserItems>()
+        val dataItems = ArrayList<RoomUser>()
         val client = AsyncHttpClient()
-        client.addHeader("Authorization", "token dedf53cdb45f487ca6aba6c1a86a6934be9041a6")
+        client.addHeader("Authorization", "token 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")
         client.addHeader("User-Agent", "request")
         client.get(url, object : AsyncHttpResponseHandler(){
             override fun onSuccess(
@@ -31,9 +32,10 @@ class DetailViewModel : ViewModel() {
                 try {
                     val result = String(responseBody)
                     val user = JSONObject(result)
-                    val userItems = UserItems()
+                    val userItems = RoomUser()
 
                     userItems.login = user.getString("login")
+                    userItems.url = user.getString("url")
                     userItems.avatar_url = user.getString("avatar_url")
                     userItems.name = user.getString("name")
                     userItems.location = user.getString("location")

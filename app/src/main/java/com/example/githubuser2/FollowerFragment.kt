@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.githubuser2.entity.RoomUser
 
 class FollowerFragment : Fragment() {
 
@@ -87,7 +88,7 @@ class FollowerFragment : Fragment() {
         rvFollows.layoutManager = LinearLayoutManager(activity)
         rvFollows.adapter = adapter
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: UserItems) {
+            override fun onItemClicked(data: RoomUser) {
                 showSelectedUser(data)
             }
         })
@@ -101,7 +102,7 @@ class FollowerFragment : Fragment() {
         }
     }
 
-    private fun showSelectedUser(user: UserItems){
+    private fun showSelectedUser(user: RoomUser){
         val moveIntentWithDetail = Intent(activity, DetailActivity::class.java)
         moveIntentWithDetail.putExtra(DetailActivity.EXTRA_USER, user)
         startActivity(moveIntentWithDetail)

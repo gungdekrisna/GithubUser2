@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.githubuser2.databinding.UserItemsBinding
+import com.example.githubuser2.entity.RoomUser
 
 class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
-    private val mData = ArrayList<UserItems>()
-    fun setData(items: ArrayList<UserItems>) {
+    var mData = ArrayList<RoomUser>()
+    fun setData(items: ArrayList<RoomUser>) {
         mData.clear()
         mData.addAll(items)
         notifyDataSetChanged()
@@ -25,7 +26,7 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = UserItemsBinding.bind(itemView)
-        fun bind(userItems: UserItems){
+        fun bind(userItems: RoomUser){
             with(itemView){
                 binding.tvItemLogin.text = userItems.login
                 binding.tvItemUrl.text = userItems.url
@@ -52,6 +53,6 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(data:UserItems)
+        fun onItemClicked(data:RoomUser)
     }
 }

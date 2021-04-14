@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Favorite Github Users</string>
+
+    <string name="name">Name</string>
+    <string name="username">Username</string>
+    <string name="location">Location</string>
+    <string name="company">Company</string>
+    <string name="repository">Repository</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="_000">000</string>
+    <string name="follow">Follow</string>
+    <string name="share">Share</string>
+
+    <string name="login">login</string>
+    <string name="url">url</string>
+    <string name="search_hint">Insert Github Username</string>
+    <string name="empty_input">Please insert character correctly!</string>
+    <string name="search_empty">Search Github user by their username!</string>
+    <string name="not_found">User not found</string>
+    <string name="change_language_settings">Change Language Settings</string>
+    <string name="started_following">Started following %s</string>
+    <string name="follow_on_github">Follow %s on Github</string>
+    <string name="error">Error</string>
+    <string name="nothing">Nothing</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="favorite">Favorite Github Users</string>
+    <string name="settings">Settings</string>
+    <string name="empty_favorite">Favorite Kosong</string>
+    <string name="added_to_favorite">User ditambahkan ke favorite</string>
+    <string name="delete_from_favorite">Telah dihapus dari favorite</string>
+    <string name="notif_alarm_9am">Daily Reminder at 09:00 AM</string>
+    <string name="daily_reminder_title">Daily Reminder</string>
+    <string name="daily_reminder_message">Let\'s check Github Users!</string>
+    <string name="reminder_on">Daily reminder set up</string>
+    <string name="reminder_off">Daily reminder canceled</string>
+
+</resources>
