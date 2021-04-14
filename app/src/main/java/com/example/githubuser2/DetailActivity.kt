@@ -1,24 +1,45 @@
 package com.example.githubuser2
 
+import android.content.ContentValues
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.githubuser2.databinding.ActivityDetailBinding
+import com.example.githubuser2.db.DatabaseContract.UserColumns.Companion.AVATAR_URL
+import com.example.githubuser2.db.DatabaseContract.UserColumns.Companion.COMPANY
+import com.example.githubuser2.db.DatabaseContract.UserColumns.Companion.CONTENT_URI
+import com.example.githubuser2.db.DatabaseContract.UserColumns.Companion.FOLLOWERS
+import com.example.githubuser2.db.DatabaseContract.UserColumns.Companion.FOLLOWING
+import com.example.githubuser2.db.DatabaseContract.UserColumns.Companion.LOCATION
+import com.example.githubuser2.db.DatabaseContract.UserColumns.Companion.LOGIN
+import com.example.githubuser2.db.DatabaseContract.UserColumns.Companion.NAME
+import com.example.githubuser2.db.DatabaseContract.UserColumns.Companion.REPOSITORY
+import com.example.githubuser2.db.DatabaseContract.UserColumns.Companion.URL
+import com.example.githubuser2.entity.RoomUser
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityDetailBinding
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var loginData : String
+    private lateinit var userData : RoomUser
+    private lateinit var uriWithUsername: Uri
+    private var favorited : Boolean = false
 
     companion object {
         const val EXTRA_USER = "extra_user"
@@ -34,7 +55,7 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val user = intent.getParcelableExtra<UserItems>(EXTRA_USER) as UserItems?
+        val user = intent.getParcelableExtra<RoomUser>(EXTRA_USER) as RoomUser?
         val url = user?.url.toString()
         loginData = user?.login.toString()
 
@@ -53,6 +74,20 @@ class DetailActivity : AppCompatActivity() {
                         .apply(RequestOptions().override(350, 550))
                         .into(binding.ivAvatar)
                 showLoading(false)
+                userData = userItems[0]
+
+                lifecycleScope.launch(Dispatchers.Default) {
+                    uriWithUsername = Uri.parse(CONTENT_URI.toString() + "/username/" + loginData)
+                    val cursor = contentResolver.query(uriWithUsername, null, null, null, null)
+                    withContext(Dispatchers.Main) {
+                        if (cursor?.count != 0) {
+                            binding.fabAddFavorite.setImageResource(R.drawable.ic_baseline_favorite_24)
+                            favorited = true
+                            cursor?.close()
+                        }
+                        binding.fabAddFavorite.visibility = View.VISIBLE
+                    }
+                }
             }
         })
 
@@ -86,6 +121,42 @@ class DetailActivity : AppCompatActivity() {
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
         }
+
+        binding.fabAddFavorite.setOnClickListener{
+            if (favorited) {
+                lifecycleScope.launch(Dispatchers.Default) {
+                    contentResolver.delete(uriWithUsername, null, null)
+                    favorited = false
+                    withContext(Dispatchers.Main) {
+                        showSnackBarMessage(resources.getString(R.string.delete_from_favorite))
+                        binding.fabAddFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                    }
+                }
+            } else {
+                lifecycleScope.launch(Dispatchers.Default) {
+                    val values = ContentValues()
+                    values.put(LOGIN, userData.login)
+                    values.put(URL, userData.url)
+                    values.put(AVATAR_URL, userData.avatar_url)
+                    values.put(NAME, userData.name)
+                    values.put(LOCATION, userData.location)
+                    values.put(COMPANY, userData.company)
+                    values.put(FOLLOWING, userData.following)
+                    values.put(FOLLOWERS, userData.followers)
+                    values.put(REPOSITORY, userData.public_repos)
+                    contentResolver.insert(CONTENT_URI, values)
+                    favorited = true
+                    withContext(Dispatchers.Main) {
+                        showSnackBarMessage(resources.getString(R.string.added_to_favorite))
+                        binding.fabAddFavorite.setImageResource(R.drawable.ic_baseline_favorite_24)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showSnackBarMessage(message: String){
+        Snackbar.make(binding.detailActivity, message, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun showLoading(state: Boolean){
